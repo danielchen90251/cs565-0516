@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="In-class activity materials for CS 565 at Oregon State University">
+	<meta name="author" content="Minsuk Kahng and WRITE_DOWN_YOUR_NAME">
+	
+	<title>CS 565 Activity</title>
+
+	<script src="https://unpkg.com/vue@3"></script>
+
+	<style type="text/css">
+		#timeline {
+			width: 600px;
+		}
+		.tweet {
+			border: 2px solid rgb(220, 220, 220);
+		}
+		.tweet-footer-info {
+			display: flex;
+			justify-content: space-between;
+		}
+		.clickable {
+			cursor: pointer;
+		}
+		.num-like {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div id="playground">
+			<div>
+				{{test_message}}
+			</div>
+
+			<div>
+				{{test_count}}
+				<button v-on:click="increment">Increment</button>
+			</div>
+		</div>
+
+		<div id="timeline">
+			<ul>
+				<li v-for="tweet in tweets">
+					<div class="tweet">
+						<div class="tweet-text">
+							{{tweet.text}}
+						</div>
+						<div class="tweet-footer-info">
+							<div class="replies">
+								Replies {{tweet.replies}}
+							</div>
+							<div class="retweet">
+								Retweet {{tweet.retweets}}
+							</div>
+							<div class="like">
+								<span class="num-like">Like {{tweet.likes}}</span>	
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">	
+		const { createApp } = Vue;
+
+		const app = createApp({
+			data() {
+				return {
+					tweets: [],
+					
+				}
+			},
+			
+			methods: {
+				
+
+			},
+
+			// The following code is for loading the JSON data file.
+			beforeMount() {
+				fetch("cs565_activity_tweet_data.json")
+					.then(response => response.json())
+					.then(jsonData => {
+						this.tweets = jsonData.tweets;
+						console.log("The list of tweets has been loaded:", this.tweets);
+
+					});
+			}
+		});
+
+		app.mount("#app");		
+	</script>
+</body>
+</html>
